@@ -8,7 +8,8 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.mouse = 'a'
 vim.opt.showmode = false
-vim.opt.verbosefile = 'verbosefile.txt'
+vim.opt.title = true
+vim.opt.titlestring = [[nvim %{fnamemodify(getcwd(), ':t')}]]
 
 vim.schedule(function()
   vim.opt.clipboard = 'unnamedplus'
