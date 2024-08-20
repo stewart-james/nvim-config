@@ -27,6 +27,15 @@ return {
     vim.keymap.set('n', '<F10>', dap.step_over, {})
     vim.keymap.set('n', '<F11>', dap.step_into, {})
     vim.keymap.set('n', '<F12>', dap.step_out, {})
+    vim.keymap.set('n', '<Leader>de', dapui.eval, {})
+
+    vim.api.nvim_set_hl(0, 'DapBreakpoint', { ctermbg = 0, fg = '#993939', bg = '#31353f' })
+    vim.api.nvim_set_hl(0, 'DapLogPoint', { ctermbg = 0, fg = '#61afef', bg = '#31353f' })
+    vim.api.nvim_set_hl(0, 'DapStopped', { ctermbg = 0, fg = '#98c379', bg = '#31353f' })
+
+    vim.fn.sign_define('DapBreakpoint', { text = '', texthl = 'DapBreakpoint', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
+    vim.fn.sign_define('DapLogPoint', { text = '', texthl = 'DapLogPoint', linehl = 'DapLogPoint', numhl = 'DapLogPoint' })
+    vim.fn.sign_define('DapStopped', { text = '', texthl = 'DapStopped', linehl = 'DapStopped', numhl = 'DapStopped' })
 
     local function find_launchsettings_files()
       local cwd = vim.fn.getcwd() -- Get the current working directory
@@ -207,8 +216,9 @@ return {
           local file = select_launchsettings()
           local profile = select_profile(file)
 
-          print(profile.commandLineArgs)
-          myArgs = split_string(profile.commandLineArgs, ' ')
+          if profile.commandLineArgs then
+            myArgs = split_string(profile.commandLineArgs, ' ')
+          end
 
           local project_path = get_project_path(file)
           local project_dir_name = vim.fn.fnamemodify(project_path, ':t')
