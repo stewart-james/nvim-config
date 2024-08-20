@@ -123,6 +123,13 @@ return {
             vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
           end, '[T]oggle Inlay [H]ints')
         end
+
+        if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_signatureHelp) then
+          require('lsp-overloads').setup(client, {})
+          map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+          vim.keymap.set('n', '<C-s>', ':LspOverloadsSignature<CR>', { buffer = event.buf, silent = true, noremap = true })
+          vim.keymap.set('i', '<C-s>', '<cmd>LspOverloadsSignature<CR>', { buffer = event.buf, silent = true, noremap = true })
+        end
       end,
     })
 
